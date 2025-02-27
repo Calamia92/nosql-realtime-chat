@@ -107,3 +107,37 @@ export async function handleDeleteMessage(data: any, ws: WebSocket, userId: stri
     // 🔔 Notifier les autres clients WebSocket
     pub.publish("chat", JSON.stringify({ type: "delete_message", messageId }));
 }
+
+
+export const publishToChannel = (channel: string, message: any) => {
+    pub.publish(channel, JSON.stringify(message));
+};
+
+export const pushMessageToCache = async (message: any) => {
+    await redis.lpush("recent_messages", JSON.stringify(message));
+    redis.ltrim("recent_messages", 0, 49);
+};
+
+export const updateMessageInCache = async (messageId: string, newContent: string) => {
+    const cachedMessages = await redis.lrange("recent_messages", 0, 49);
+    let messages = cachedMessages.map((msg) => JSON.parse(msg));
+    const index = messages.findIndex((msg: any) => msg.messageId === messageId);
+    if (index !== -1) {
+        messages[index].text = newContent;
+    }
+    redis.del("recent_messages");
+    messages.forEach((msg) => redis.lpush("recent_messages", JSON.stringify(msg)));
+};
+
+export const getRecentMessages = async () => {
+    const cachedMessages = await redis.lrange("recent_messages", 0, 9);
+    return cachedMessages.map((msg) => JSON.parse(msg));
+};
+
+export const removeMessageFromCache = async (messageId: string) => {
+    const cachedMessages = await redis.lrange("recent_messages", 0, 49);
+    let messages = cachedMessages.map((msg) => JSON.parse(msg));
+    messages = messages.filter((msg: any) => msg.messageId !== messageId);
+    redis.del("recent_messages");
+    messages.forEach((msg) => redis.lpush("recent_messages", JSON.stringify(msg)));
+};

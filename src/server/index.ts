@@ -1,10 +1,13 @@
+// server.ts
 import express from "express";
 import cors from "cors";
 import { WebSocketServer, WebSocket } from "ws";
+import dotenv from "dotenv";
+import { handleSendMessage, handleEditMessage, handleDeleteMessage } from "./controllers/chatController.ts";
 import { redis, sub } from "./db.js";
 import authRoutes from "./auth.js";
 import { verifyToken } from "./auth.js";
-import { handleSendMessage, handleEditMessage, handleDeleteMessage } from "./message.ts";
+dotenv.config();
 
 const app = express();
 app.use(cors());
