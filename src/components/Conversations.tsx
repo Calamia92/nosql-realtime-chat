@@ -7,7 +7,6 @@ const conversations = [
   { id: 3, title: "Équipe", lastMessage: "Réunion à 14h", unread: 0, favorite: true, avatar: "https://randomuser.me/api/portraits/men/2.jpg" },
 ];
 
-// Définition des props (on reçoit `onSelectChat` depuis `ChatLayout.tsx`)
 interface ConversationsProps {
   onSelectChat: (id: number) => void;
 }
@@ -65,10 +64,10 @@ const Conversations: React.FC<ConversationsProps> = ({ onSelectChat }) => {
             <ListGroupItem
               key={conversation.id}
               className="d-flex justify-content-between align-items-center"
-              onClick={() => onSelectChat(conversation.id)} // Sélectionner la conversation
+              onClick={() => onSelectChat(conversation.id)}
               style={{
                 cursor: "pointer",
-                borderBottom: "1px solid #ddd",  // Légère séparation entre les éléments
+                borderBottom: "1px solid #ddd",
               }}
             >
               <div className="d-flex align-items-center">

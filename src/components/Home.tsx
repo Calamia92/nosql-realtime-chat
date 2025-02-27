@@ -101,7 +101,7 @@ const Home: React.FC = () => {
           </Col>
           <Col md={4}>
             <Image 
-              src="../public/images/4413151-illustrationle-plate-de-groupe-de-personnes-en-discussion-convient-pour-element-de-conception-du-forum-d-entreprise-debat-politique-et-discuter-des-questions-actuelles-activite-gratuit-vectoriel.jpg" 
+              src="../public/images/4413151-illustration.jpg"
               alt="Avantage 3 - Groupes de Discussion" 
               fluid 
               style={{ maxHeight: '250px', objectFit: 'cover' }} 
@@ -112,7 +112,6 @@ const Home: React.FC = () => {
         </Row>
       </Container>
 
-      {/* Ajout du Footer */}
       <Footer />
     </div>
   );

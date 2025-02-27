@@ -5,9 +5,8 @@ import ChatApp from "./ChatApp.js";
 
 
 const ChatLayout: React.FC = () => {
-  const [selectedChat, setSelectedChat] = useState<number | null>(null); // État pour la conversation sélectionnée
+  const [selectedChat, setSelectedChat] = useState<number | null>(null);
 
-  // Gérer l'envoi d'un message
   const handleSendMessage = (chatId: number, newMessage: string) => {
     
     console.log(`Message envoyé à la conversation ${chatId}: ${newMessage}`);
