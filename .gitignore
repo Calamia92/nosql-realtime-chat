@@ -28,3 +28,5 @@ serviceAccountKey.json
 
 # Variable d'environnements
 .env
+.history
+.lh
