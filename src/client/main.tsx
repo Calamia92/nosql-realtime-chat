@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';  // L'import de ton fichier principal
+import App from './App.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-  // Si tu as des styles globaux
 
-const rootElement = document.getElementById('app') as HTMLElement;  // Cibler l'élément 'app' dans index.html
-const root = ReactDOM.createRoot(rootElement);  // Créer la racine de l'application
+const rootElement = document.getElementById('app') as HTMLElement;
+const root = ReactDOM.createRoot(rootElement);
 
 root.render(
   <React.StrictMode>

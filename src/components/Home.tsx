@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Container, Row, Col, Image } from "react-bootstrap";
 import { FaCommentDots, FaUserFriends } from "react-icons/fa";  // Icônes Font Awesome
-import Footer from "./Footer"; // Assure-toi que le chemin est correct
+import Footer from "./Footer.js"; // Assure-toi que le chemin est correct
+
 import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
