@@ -45,28 +45,23 @@ const ChatApp: React.FC<ChatAppProps> = ({ chatId, onSendMessage }) => {
     return <div>Aucune conversation trouvée.</div>;
   }
 
-  // Utiliser useState pour stocker dynamiquement les messages
   const [messages, setMessages] = useState(conversation.messages);
   const [newMessage, setNewMessage] = useState("");
 
-  // Fonction pour envoyer un message
   const sendMessage = () => {
     if (!newMessage.trim()) return;
 
     const newMsg = {
-      id: messages.length + 1, // ID unique basé sur la longueur
+      id: messages.length + 1,
       text: newMessage,
       sender: "Moi",
       timestamp: new Date().toLocaleTimeString(),
     };
 
-    // Ajouter le message dans l'état local
     setMessages([...messages, newMsg]);
 
-    // Envoyer le message via `onSendMessage`
     onSendMessage(chatId, newMessage);
 
-    // Réinitialiser le champ de texte après l'envoi
     setNewMessage("");
   };
 
