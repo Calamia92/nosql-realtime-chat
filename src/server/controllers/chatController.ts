@@ -1,7 +1,7 @@
 // chatController.ts
 import { WebSocket } from "ws";
 import { createChatIfNotExist, addMessageToChat, getMessagesFromChat } from "../services/firebaseService.ts";
-import { publishToChannel, pushMessageToCache, updateMessageInCache, removeMessageFromCache } from "../services/redisService.ts";
+import { publishToChannel, pushMessageToCache, updateMessageInCache, removeMessageFromCache } from '../message.ts';
 
 // Fonction pour envoyer un message
 export const handleSendMessage = async (data: any, ws: WebSocket, userId: string) => {
