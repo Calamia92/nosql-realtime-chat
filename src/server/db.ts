@@ -1,4 +1,4 @@
-import { initializeApp, cert } from "firebase-admin/app";
+import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import { getAuth } from "firebase-admin/auth";
 import { Redis } from "ioredis";
@@ -6,10 +6,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// 🔥 Initialisation de Firebase
-initializeApp({
-    credential: cert("./serviceAccountKey.json"),
-});
+if (!getApps().length) {
+    initializeApp({
+        credential: cert('./serviceAccountKey.json'),
+    });
+} else {
+    console.log("Firebase déjà initialisé");
+}
+
 const db = getFirestore();
 const auth = getAuth();
 
