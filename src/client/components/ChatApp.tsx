@@ -12,7 +12,7 @@ const ChatApp: React.FC<ChatAppProps> = ({ chatId, onSendMessage }) => {
   const [newMessage, setNewMessage] = useState("");
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
-  // 🔥 Récupère l'historique des messages Firestore
+  // 🔄 Fonction pour récupérer les messages depuis Firestore
   const fetchMessages = async () => {
     try {
       const response = await fetch(`http://localhost:3000/chat/messages/${chatId}`);
@@ -24,11 +24,11 @@ const ChatApp: React.FC<ChatAppProps> = ({ chatId, onSendMessage }) => {
     }
   };
 
-  // 🔄 Se connecter au WebSocket et écouter Redis
+  // 🔥 Connexion WebSocket et mise à jour en temps réel
   useEffect(() => {
     if (!currentUser || !chatId) return;
 
-    fetchMessages(); // ✅ Charge Firestore au démarrage
+    fetchMessages(); // ✅ Charge Firestore dès le départ
 
     const newSocket = new WebSocket("ws://localhost:8080");
 
@@ -42,7 +42,7 @@ const ChatApp: React.FC<ChatAppProps> = ({ chatId, onSendMessage }) => {
       console.log("📩 Message reçu via WebSocket :", data);
 
       if (data.type === "message") {
-        setMessages((prevMessages) => [...prevMessages, data]); // 🔥 Mise à jour en direct
+        fetchMessages(); // 🔄 Recharge Firestore après un nouveau message
       }
     };
 
@@ -54,6 +54,7 @@ const ChatApp: React.FC<ChatAppProps> = ({ chatId, onSendMessage }) => {
     return () => newSocket.close();
   }, [currentUser, chatId]);
 
+  // ✅ Fonction d'envoi de message avec rafraîchissement instantané
   const sendMessage = () => {
     if (!newMessage.trim() || !socket) return;
 
@@ -65,7 +66,11 @@ const ChatApp: React.FC<ChatAppProps> = ({ chatId, onSendMessage }) => {
     };
 
     socket.send(JSON.stringify(newMsg));
-    onSendMessage(chatId, newMessage); // ✅ Appel correct de la fonction
+
+    // ✅ 🔥 Recharge immédiatement les messages après l'envoi
+    setTimeout(fetchMessages, 500);
+
+    onSendMessage(chatId, newMessage);
     setNewMessage("");
   };
 
@@ -79,7 +84,10 @@ const ChatApp: React.FC<ChatAppProps> = ({ chatId, onSendMessage }) => {
         <div style={{ flex: 1, overflowY: "auto", marginBottom: "20px" }}>
           {messages.map((message, index) => (
               <div key={index} className={`d-flex ${message.senderId === currentUser?.uid ? "justify-content-end" : "justify-content-start"} mb-3`}>
-                <div className={`p-2 rounded ${message.senderId === currentUser?.uid ? "bg-primary text-white" : "bg-light"}`} style={{ maxWidth: "75%", wordWrap: "break-word" }}>
+                <div
+                    className={`p-2 rounded ${message.senderId === currentUser?.uid ? "bg-primary text-white" : "bg-light"}`}
+                    style={{ maxWidth: "75%", wordWrap: "break-word" }}
+                >
                   <p className="mb-0">{message.text}</p>
                 </div>
               </div>
